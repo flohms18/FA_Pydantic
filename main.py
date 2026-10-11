@@ -1,8 +1,10 @@
-from fastapi import FastAPI, Request
-from pydantic import BaseModel, ConfigDict
+from fastapi import FastAPI, Request, Form
+from pydantic import BaseModel, ConfigDict, Field
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from typing import Annotated
+
 
 
 app = FastAPI()
@@ -12,19 +14,14 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
-class User:
-    FirstName : str
+class User (BaseModel):
+    FirstName : Annotated[str, Field(min_length=2)]
     LastName : str
-    Age : int
-    Consultant : False
+    Age : Annotated[int, Field(ge=18, le=99)]
+    Consultant : bool = False
 
-    model_config = {
-            ConfigDict(
-                str_max_length=10
-            )
-
-
-    }
+    model_config = ConfigDict()
+    
 
 
 @app.get('/', response_class=HTMLResponse)
@@ -33,9 +30,11 @@ async def index(request : Request):
         request=request, name='home.html'
     )
 
+@app.post('/create_user')
+async def create_item(user: Annotated[User, Form()]):
+    return user
 
-
-@app.put('User/{user_id}')
+@app.put('/User/{user_id}')
 async def update_item(user_id : int, user : User):
     results = {
         {

@@ -6,6 +6,21 @@
     <title>James Bond</title>
 </head>
 <body>
-    Jimmy Daw
+    <form action="/create_user" method="post">
+        <label for="FirstName">First Name:</label>
+        <input type="text" id="fname" name="FirstName"><br><br>
+        
+        <label for="LastName">Last Name:</label>
+        <input type="text" id="lname" name="LastName"><br><br>
+        
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="Age"><br><br>
+        
+        <label for="consultant">Consultant?</label>
+        <input type="checkbox" checked="checked" name="consultant"/><br><br>
+           
+        <input type="submit" value="Submit">
+        
+        </form>
 </body>
 </html>
