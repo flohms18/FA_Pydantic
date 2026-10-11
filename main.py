@@ -19,8 +19,6 @@ class User (BaseModel):
     LastName : str
     Age : Annotated[int, Field(ge=18, le=99)]
     Consultant : bool = False
-
-    model_config = ConfigDict()
     
 
 
