@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -19,11 +19,11 @@ class User:
     Consultant : False
 
     model_config = {
-        "json_schema_extra" : {
-            "examples" : [
-                "name"
-            ]
-        }
+            ConfigDict(
+                str_max_length=10
+            )
+
+
     }
 
 
@@ -32,6 +32,17 @@ async def index(request : Request):
     return templates.TemplateResponse(
         request=request, name='home.html'
     )
+
+
+
+@app.put('User/{user_id}')
+async def update_item(user_id : int, user : User):
+    results = {
+        {
+            "user_id" : user_id,
+            "user" : user
+        }
+    }
 
 
 
