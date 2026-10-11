@@ -40,6 +40,3 @@ async def update_item(user_id : int, user : User):
             "user" : user
         }
     }
-
-
-
